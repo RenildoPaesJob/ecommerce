@@ -2,7 +2,7 @@
 
 namespace Hcode;
 
-use Rain\Tpl;
+use Rain\Tpl;//chamando a classe Tpl pelo seu nomespace
 
 class Page{
 
@@ -17,13 +17,13 @@ class Page{
     //construct para o cabeçalho das paginas
     public function __construct($opts = array())
     {
-        $this->options = array_merge($this->defaults, $opts);//faz um merge dos arrays
+        $this->options = array_merge($this->defaults, $opts);//faz um merge dos arrays, um sobrescrevendo o outro (o ultimo por cima)
 
         $config = array(
             "base_url"  => null,
             "tpl_dir"   => $_SERVER["DOCUMENT_ROOT"] . "/views/", //caminho do template
             "cache_dir" => $_SERVER["DOCUMENT_ROOT"] . "/views-cache/", //caminho do cache
-            "debug"     => false
+            "debug"     => true
         );
 
         Tpl::configure($config);
@@ -35,13 +35,13 @@ class Page{
         if($this->options['header'] === true) $this->tpl->draw('header', false);//carregando em todas as paginas (que chamar essa classe) o cabeçalho da pagina.
     }
 
-    public function setData($data = array()){//metodo que busca array de dados a serem usados na pagina.
+    private function setData($data = array()){//function que busca array de dados a serem usados na pagina.
         foreach ($data as $key => $value) {//pegando cada dado, e sua chave e setando na $value.
             $this->tpl->assign($key, $value);//pegando sua chave e seu valor, e colocando no template da pagina
         }
     }
 
-    public function setTpl($name, $data = array(), $returnHTML = false){
+    public function setTpl($name, $data = array(), $returnHTML = false){//function para montar o template na tela do user
         
         $this->setData($data);//array de dados a serem usados na pagina
         

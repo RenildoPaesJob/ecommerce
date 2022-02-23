@@ -4,7 +4,6 @@
     "type": "library",
     "description": "Classes PHP",
     "homepage": "https://github.com/hcodebr/php-classes",
-<<<<<<< HEAD
     "authors": [{
         "name": "Hcode Treinamentos",
         "email": "suporte@hcode.com.br"
@@ -12,17 +11,6 @@
     "require": {
         "php": ">=7.0",
         "rain/raintpl": "3.0.0"
-=======
-    "authors": [
-        {
-            "name": "Hcode Treinamentos",
-            "email": "suporte@hcode.com.br"
-        }
-    ],
-    "require": {
-        "php": ">=7.0",
-        "rain/raintpl":"3.0.0"
->>>>>>> 9f29711b5916a544f7171c01a7b70b9eebee9f56
     },
     "autoload": {
         "psr-4": {
