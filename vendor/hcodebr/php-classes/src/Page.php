@@ -8,20 +8,20 @@ class Page{
 
     private $tpl;
     private $options = [];
-    private $defaults = [
+    private $defaults = [ // padrões da construção da paigna
         "header" => true,
         "footer" => true,
-        "data" => []
+        "data"   => []
     ];
 
     //construct para o cabeçalho das paginas
-    public function __construct($opts = array())
+    public function __construct($opts = array(), $tpl_dir = "/views/")
     {
         $this->options = array_merge($this->defaults, $opts);//faz um merge dos arrays, um sobrescrevendo o outro (o ultimo por cima)
 
         $config = array(
             "base_url"  => null,
-            "tpl_dir"   => $_SERVER["DOCUMENT_ROOT"] . "/views/", //caminho do template
+            "tpl_dir"   => $_SERVER["DOCUMENT_ROOT"] . $tpl_dir, //caminho do template
             "cache_dir" => $_SERVER["DOCUMENT_ROOT"] . "/views-cache/", //caminho do cache
             "debug"     => true
         );
@@ -30,9 +30,11 @@ class Page{
 
         $this->tpl = new Tpl(); // instância da library dentro da $tpl;
 
-        if($this->options['data']) $this->setData($this->options['data']);//metodo para buscar todos os dados do corpo da pagina
+        //condição de parametros enviados da routes. Entre FALSE OU TRUE.
+        if($this->options['data']) $this->setData($this->options['data']);
 
-        if($this->options['header'] === true) $this->tpl->draw('header', false);//carregando em todas as paginas (que chamar essa classe) o cabeçalho da pagina.
+        //condição de parametros enviados da routes. Entre FALSE OU TRUE. FALSE => Caso já exista um HEADER.
+        if($this->options['header'] === true) $this->tpl->draw('header', false);
     }
 
     private function setData($data = array()){//function que busca array de dados a serem usados na pagina.
@@ -50,7 +52,8 @@ class Page{
 
     //destruct para o rodapé da pagina
     public function __destruct()
-    {
+    {   
+        //condição de parametros enviados da routes. Entre FALSE OU TRUE. FALSE => Caso já exista um FOOTER.
         if ($this->options['footer'] === true) $this->tpl->draw("footer", false);
     }
 }
