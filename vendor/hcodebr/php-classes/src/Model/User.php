@@ -25,7 +25,7 @@ class User extends Model
             throw new \Exception("Usuário ou Senha Inexistentes");
         }
 
-        //$data está recebendo o DADO que está na posição 0 dentro do array da variavel $results que veio do banco.
+        //$data está recebendo os DADOS que está na posição 0 dentro do array da variavel $results que veio do banco.
         $data = $results[0];
 
         //se o hash da senha que está gravada no banco for igual a senha que veio do formulario que o usuario digitou.

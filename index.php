@@ -40,13 +40,13 @@ $app->get('/admin/login', function() {
 $app->post('/admin/login', function(){//método para pegar os valores atráves do formulário de login e senha;
 	
 	User::login($_POST['login'], $_POST['password']);//usando o método estático da classe
-	header('Loction: /admin');
+	header("location: /admin");
 	exit;
 });
 
 $app->get('/admin/logout', function(){
 	User::logout();
-	header("Location: /admin/login");
+	header("location: /admin/login");
 	exit;
 });
 
