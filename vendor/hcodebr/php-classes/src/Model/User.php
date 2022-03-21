@@ -25,7 +25,7 @@ class User extends Model
             throw new \Exception("Usuário ou Senha Inexistentes");
         }
 
-        //$data está recebendo o DADO que está na posição 0 dentro do array da variavel $results que veio do banco.
+        //$data está recebendo os DADOS que está na posição 0 dentro do array da variavel $results que veio do banco.
         $data = $results[0];
 
         //se o hash da senha que está gravada no banco for igual a senha que veio do formulario que o usuario digitou.
@@ -64,5 +64,35 @@ class User extends Model
     public static function logout()
     {
         $_SESSION[User::SESSION] = null;
+    }
+
+    public static function listAll()
+    {
+        $sql = new Sql();
+
+        return $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) ORDER BY b.desperson");
+    }
+
+    public function save()
+    {
+        $sql = new Sql();
+        /**
+         * pdesperson VARCHAR(64), 
+         * pdeslogin VARCHAR(64), 
+         * pdespassword VARCHAR(256), 
+         * pdesemail VARCHAR(128), 
+         * pnrphone BIGINT, 
+         * pinadmin TINYINT    
+         */
+        $results = $sql->select("CALL sp_user_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
+            ':desperson' => $this->getdesperson(),
+            ':deslogin' => $this->getdesLogin(),
+            ':despassword' => $this->getdespassword(),
+            ':desemail' => $this->getdesemail(),
+            ':nrphone' => $this->getnrphone(),
+            ':inadmin' => $this->getinadmin()
+        ));
+
+        $this->setData($results[0]);
     }
 }
