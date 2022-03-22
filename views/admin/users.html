@@ -26,7 +26,7 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th style="width: 10px">#</th>
+                                    <th style="width: 10px">id</th>
                                     <th>Nome</th>
                                     <th>E-mail</th>
                                     <th>Login</th>
@@ -45,7 +45,7 @@
                                     <td>{if="$value.inadmin == 1"}Sim{else}Não{/if}</td>
                                     <td>
                                         <a href="/admin/users/{$value.iduser}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                                        <a href="/admin/users/{$value.iduser}/delete" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                                        <a href="/admin/users/{$value.iduser}/delete" onclick="return confirm('Deseja Realmente Excluir?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
                                         <!-- onclick="return confirm('Deseja realmente excluir este registro?')" -->
                                     </td>
                                 </tr>
