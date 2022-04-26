@@ -15,7 +15,6 @@ $app->get("/", function() {
     
 	$page = new Page();// chamada da classe, contendo o __construct, e dentro do __construct tem o header da pagina;
 	$page->setTpl("index");//colocando o template da pagina, e depois a sua execução chama o __destruct.
-
 });
 
 $app->get("/admin", function(){
@@ -23,7 +22,6 @@ $app->get("/admin", function(){
 	User::verifyLogin();
 	$page = new PageAdmin();
 	$page->setTpl("index");
-
 });
 
 $app->get("/admin/login", function() {
@@ -34,7 +32,6 @@ $app->get("/admin/login", function() {
 	]);
 
 	$page->setTpl("login");
-
 });
 
 $app->post("/admin/login", function(){//método para pegar os valores atráves do formulário de login e senha;
@@ -69,14 +66,31 @@ $app->get("/admin/users/create", function() {
 
 $app->post("/admin/users/:iduser/delete", function($iduser){
 
-	User::verifyLogin();
+	User::verifyLogin();	
+
+	$user = new User();
+
+	$user->get((int)$iduser);
+
+	$user->delete();
+
+	header("Location: /admin/users");
+	exit;
 });
 
-$app->get("/admin/users/:iduser", function($idUser) {
+$app->get("/admin/users/:iduser", function($iduser) {
 	
 	User::verifyLogin();
+
+	$user = new User();
+
+	$user->get((int)$iduser);
+
 	$page = new PageAdmin();
-	$page->setTpl("users-update");
+
+	$page->setTpl("users-update", array(
+		'user' => $user->getValues()
+	));
 });
 
 $app->post("/admin/users/create", function(){
@@ -95,6 +109,8 @@ $app->post("/admin/users/create", function(){
 
 	$user->save();
 
+	var_dump($user);
+
 	header("Location: /admin/users");
  	exit;
 });
@@ -102,6 +118,19 @@ $app->post("/admin/users/create", function(){
 $app->post("/admin/users/:iduser", function($iduser){
 
 	User::verifyLogin();
+
+	$user = new User();
+
+	$_POST["inadmin"] = (isset($_POST["inadmin"])) ? 1 : 0;
+
+	$user->get((int)$iduser);
+
+	$user->setData($_POST);
+
+	$user->update();
+
+	header('location: /admin/users');
+	exit;
 });
 
 $app->run();//execução da tpl

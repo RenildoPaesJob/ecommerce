@@ -3,7 +3,7 @@
 namespace Hcode\Model;
 
 use \Hcode\DB\Sql;
-use Hcode\Model\Model;
+use \Hcode\Model\Model;
 
 class User extends Model
 { //extendendo a classe model para gerar o getters e setters
@@ -38,7 +38,7 @@ class User extends Model
             //passando o método a ser usado, set ou get e passando um array de informações que ele encontrou na variavel $results acima.
             $user->setData($data);
 
-            $_SESSION[User::SESSION] = $user->getValues(); //colocando todos os dados dentro da $_SESSION[];
+            $_SESSION[User::SESSION] = $user->getValues(); //colocando todos os dados do banco de dados dentro da $_SESSION[];
             return $user;
         } else {
             throw new \Exception("Usuário ou Senha Inexistentes");
@@ -84,15 +84,50 @@ class User extends Model
          * pnrphone BIGINT, 
          * pinadmin TINYINT    
          */
-        $results = $sql->select("CALL sp_user_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
-            ':desperson' => $this->getdesperson(),
-            ':deslogin' => $this->getdesLogin(),
-            ':despassword' => $this->getdespassword(),
-            ':desemail' => $this->getdesemail(),
-            ':nrphone' => $this->getnrphone(),
-            ':inadmin' => $this->getinadmin()
+        $results = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
+            ':desperson'    => $this->getdesperson(),
+            ':deslogin'     => $this->getdeslogin(),
+            ':despassword'  => $this->getdespassword(),
+            ':desemail'     => $this->getdesemail(),
+            ':nrphone'      => $this->getnrphone(),
+            ':inadmin'      => $this->getinadmin()
+        ));
+        $this->setData($results[0]);
+    }
+
+    public function get($iduser)
+    {
+        $sql = new Sql();
+
+        $results = $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) WHERE a.iduser = :iduser', array(
+            'iduser' => $iduser
         ));
 
         $this->setData($results[0]);
+    }
+
+    public function update()
+    {
+        $sql = new Sql();
+        
+        $results = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
+            'iduser'        => $this->getiduser(),
+            ':desperson'    => $this->getdesperson(),
+            ':deslogin'     => $this->getdeslogin(),
+            ':despassword'  => $this->getdespassword(),
+            ':desemail'     => $this->getdesemail(),
+            ':nrphone'      => $this->getnrphone(),
+            ':inadmin'      => $this->getinadmin()
+        )); 
+        $this->setData($results[0]);
+    }
+
+    public function delete()
+    {
+        $sql = new Sql();
+
+        $sql->query("CALL sp_users_delete(:iduser)", array(
+            ":iduser" => $this->getiduser()
+        ));
     }
 }

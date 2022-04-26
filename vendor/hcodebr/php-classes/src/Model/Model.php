@@ -13,8 +13,8 @@ class Model
     */
     public function __call($name, $arguments)
     {
-        $method = substr($name, 0, 3); //0 = inicio da string(método), 3 = quantidade de caracteres(do metodo passado).
-        $fieldName = substr($name, 3, strlen($name));
+        $method     = substr($name, 0, 3); //0 = inicio da string(método), 3 = quantidade de caracteres(do metodo passado).
+        $fieldName  = substr($name, 3, strlen($name));
 
         switch ($method) {
             case 'get':

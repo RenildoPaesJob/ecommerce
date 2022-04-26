@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '4ffe475dbfb470b9c3e657644196b19610680571',
+        'reference' => '30c95e516aa955e906f54e103ccfe2884e88caa0',
         'name' => 'renildopaesjob/ecommerce',
         'dev' => true,
     ),
@@ -34,7 +34,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '4ffe475dbfb470b9c3e657644196b19610680571',
+            'reference' => '30c95e516aa955e906f54e103ccfe2884e88caa0',
             'dev_requirement' => false,
         ),
         'slim/slim' => array(
