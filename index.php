@@ -71,7 +71,7 @@ $app->get("/admin/users/:iduser/delete", function ($iduser) {
 $app->get("/admin/users", function () {
 	User::verifyLogin();
 	$users = User::listAll();
-	$page = new PageAdmin();
+	$page = new PageAdmin(); 
 	$page->setTpl("users", array(
 		"users" => $users
 	));
@@ -129,11 +129,6 @@ $app->post("/admin/users/:iduser", function ($iduser) {
 
 	header("location: /admin/users");
 	exit;
-
-	var_dump($user);
-
-	header("Location: /admin/users");
- 	exit;
 });
 
 $app->post("/admin/users/:iduser", function($iduser){
