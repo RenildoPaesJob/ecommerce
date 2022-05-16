@@ -97,6 +97,7 @@ $app->post("/admin/users/create", function () {
 	exit;
 });
 
+//METODO QUE DELETA USER PELO O POST
 $app->post("/admin/users/:iduser/delete", function($iduser){
 
 	User::verifyLogin();	
@@ -108,6 +109,7 @@ $app->post("/admin/users/:iduser/delete", function($iduser){
 	exit;
 });
 
+//METODO QUE ALTERA UM USER
 $app->get("/admin/users/:iduser", function($iduser) {
 	
 	User::verifyLogin();
@@ -203,6 +205,12 @@ $app->post('/admin/forgot/reset', function(){
 	$page->setTpl("forgot-reset-success");
 });
 
+
+/**
+ * ///////////////////////////////////////////////
+ * //////////// CRUD DE CATEGORIA ////////////////
+ * ///////////////////////////////////////////////
+*/
 $app->get('/admin/categories', function(){
 	User::verifyLogin();
 
@@ -276,4 +284,21 @@ $app->post('/admin/categories/:idcategory', function($idcategory){
 	header('Location: /admin/categories');
 	exit;
 });
+
+$app->get("/categories/:idcategory", function($idcategory) {
+    
+	$category = new Category();
+	$category->get((int)$idcategory);
+
+	$page = new Page();
+	$page->setTpl("category", [
+		'category' => $category->getValues(),
+		'pruducts' => []
+	]);
+});
+/**
+ * ///////////////////////////////////////////////
+ * //////////// FIM CRUD DE CATEGORIA ////////////
+ * ///////////////////////////////////////////////
+*/
 $app->run();//execução da tpl
